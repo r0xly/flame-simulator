@@ -5,15 +5,9 @@ import { FlamethrowerSimulation } from "client/objects/flamethrower-simulation";
 import { Flamethrower } from "types/flamethrower";
 
 @Controller({})
-export class FlamethrowerController implements  OnInit 
+export class FlamethrowerController
 {
     private flamethrowerActive = false; 
-
-    onInit() 
-    {
-        UserInputService.InputBegan.Connect((input, gpe) => this.onInput(input, gpe, true));        
-        UserInputService.InputEnded.Connect((input, gpe) => this.onInput(input, gpe, false));        
-    }
 
     getFlamethrower()
     {
@@ -23,16 +17,16 @@ export class FlamethrowerController implements  OnInit
             return tool as Flamethrower;
     }
 
-    private startFlamethrower()
+    startFlamethrower()
     {
         const flamethrower = this.getFlamethrower();
         
         if (!flamethrower)
             return;
-        
-        this.flamethrowerActive = true;
 
         const flamethrowerSimulation = new FlamethrowerSimulation(flamethrower);
+        
+        this.flamethrowerActive = true;
 
         while (this.flamethrowerActive)
         {
@@ -41,21 +35,9 @@ export class FlamethrowerController implements  OnInit
         }
     }
 
-    private stopFlamethrower()
+    stopFlamethrower()
     {
         this.flamethrowerActive = false;
     }        
-
-    private onInput(input: InputObject, gpe: boolean, inputBegan: boolean)
-    {
-        if (!gpe && input.UserInputType === Enum.UserInputType.Touch)
-        {
-            if (inputBegan) 
-                this.startFlamethrower();
-            else 
-                this.stopFlamethrower();
-        }
-
-    }
 
 }

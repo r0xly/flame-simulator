@@ -27,7 +27,6 @@ export class FlamethrowerSimulation
     clientTick()
     {
         const origin = this.handle.Position;
-
         const direction = origin
             .sub(mouse.Hit.Position).Unit
             .mul(this.range); 
