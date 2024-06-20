@@ -1,42 +1,45 @@
 import { Controller, OnStart, OnInit } from "@flamework/core";
 import { Players, UserInputService } from "@rbxts/services";
 import { Events } from "client/network";
-import { FlamethrowerSimulation } from "client/objects/flamethrower-simulation";
-import { Flamethrower } from "types/flamethrower";
+import { Flamethrower } from "shared/objects/flamethrower";
+import { FlamethrowerHelper } from "shared/objects/flamethrower-helper";
+import { FlamethrowerTool } from "types/flamethrower";
+
+const player = Players.LocalPlayer;
+const mouse = player.GetMouse();
+
 
 @Controller({})
 export class FlamethrowerController
 {
     private flamethrowerActive = false; 
 
-    getFlamethrower()
+    activateFlamethrower()
     {
-        const tool = Players.LocalPlayer.Character?.FindFirstAncestorWhichIsA("Tool");
-
-        if (tool && tool.GetAttribute("IsFlamethrower"))
-            return tool as Flamethrower;
-    }
-
-    startFlamethrower()
-    {
-        const flamethrower = this.getFlamethrower();
-        
-        if (!flamethrower)
+        if (this.flamethrowerActive)
             return;
 
-        const flamethrowerSimulation = new FlamethrowerSimulation(flamethrower);
+        const tool = FlamethrowerHelper.getPlayerFlamethrowerTool(player);
+        assert(tool, "Could not start flamethrower. Flamethrower tool in not equipped.");
         
+        Events.activateFlamethrower.fire();
         this.flamethrowerActive = true;
+        
+        const flamethrower = new Flamethrower(tool);
 
         while (this.flamethrowerActive)
         {
-            flamethrowerSimulation.clientTick(); 
+            const direction = mouse.Hit.Position.sub(tool.Handle.Hole.WorldPosition).Unit;
+
+            Events.tickFlamethrower.fire(direction);            
             task.wait();
         }
     }
 
-    stopFlamethrower()
+    deactivateFlamethrower()
     {
+        Events.deactivateFlamethrower.fire();
+
         this.flamethrowerActive = false;
     }        
 

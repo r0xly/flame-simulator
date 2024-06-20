@@ -2,7 +2,9 @@ import { Networking } from "@flamework/networking";
 
 interface ClientToServerEvents 
 {
-    burnParts(parts: BasePart[]): void,
+    tickFlamethrower(flameDirection: Vector3): void,
+    deactivateFlamethrower(): void,
+    activateFlamethrower(): void,
 }
 
 interface ServerToClientEvents {}

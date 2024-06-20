@@ -11,18 +11,18 @@ export class InputController implements OnInit
     {
         UserInputService.InputBegan.Connect((input, gpe) => 
         {
-            if (!gpe) return;
+            if (gpe) return;
 
-            if (input.UserInputType === Enum.UserInputType.Touch)
-                this.flamethrowerController.startFlamethrower();
+            if (input.UserInputType === Enum.UserInputType.MouseButton1)
+                this.flamethrowerController.activateFlamethrower();
         });
 
         UserInputService.InputEnded.Connect((input, gpe) => 
         {
-            if (!gpe) return;
+            if (gpe) return;
 
-            if (input.UserInputType === Enum.UserInputType.Touch)
-                this.flamethrowerController.stopFlamethrower();
+            if (input.UserInputType === Enum.UserInputType.MouseButton1)
+                this.flamethrowerController.deactivateFlamethrower();
         });
     }
 }

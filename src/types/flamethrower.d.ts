@@ -1,4 +1,11 @@
-export type Flamethrower = Tool &
+export type FlamethrowerTool = Tool &
 {
-    Handle: BasePart,
+    Handle: BasePart &
+    {
+        Hole: Attachment &
+        {
+            Smoke: ParticleEmitter,
+            Fire: ParticleEmitter,
+        }
+    },
 }
