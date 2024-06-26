@@ -5,9 +5,14 @@ interface ClientToServerEvents
     tickFlamethrower(flameDirection: Vector3): void,
     deactivateFlamethrower(): void,
     activateFlamethrower(): void,
+
+    collectCurrency(currencyType: string, quanity: number): void,
 }
 
-interface ServerToClientEvents {}
+interface ServerToClientEvents 
+{
+    dropCurrency(currencyType: string, quanity: number, position: Vector3): void,
+}
 
 interface ClientToServerFunctions {}
 

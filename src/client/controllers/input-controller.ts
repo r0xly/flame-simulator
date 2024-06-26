@@ -1,6 +1,7 @@
 import { Controller, OnStart, OnInit } from "@flamework/core";
-import { UserInputService } from "@rbxts/services";
+import { Players, UserInputService } from "@rbxts/services";
 import { FlamethrowerController } from "./flamethrower-controller";
+import { FlamethrowerHelper } from "shared/objects/flamethrower-helper";
 
 @Controller({})
 export class InputController implements OnInit 
@@ -13,15 +14,13 @@ export class InputController implements OnInit
         {
             if (gpe) return;
 
-            if (input.UserInputType === Enum.UserInputType.MouseButton1)
+            if (FlamethrowerHelper.getPlayerFlamethrowerTool(Players.LocalPlayer) && input.UserInputType === Enum.UserInputType.MouseButton1 || input.UserInputType === Enum.UserInputType.Touch)
                 this.flamethrowerController.activateFlamethrower();
         });
 
         UserInputService.InputEnded.Connect((input, gpe) => 
         {
-            if (gpe) return;
-
-            if (input.UserInputType === Enum.UserInputType.MouseButton1)
+            if (input.UserInputType === Enum.UserInputType.MouseButton1 || input.UserInputType === Enum.UserInputType.Touch)
                 this.flamethrowerController.deactivateFlamethrower();
         });
     }

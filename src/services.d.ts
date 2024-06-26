@@ -13,6 +13,8 @@ interface ReplicatedStorage
             {
                 Fire: ParticleEmitter,
             }
-        }
+        },
+
+        DropableCurrency: Folder,
     }
 }

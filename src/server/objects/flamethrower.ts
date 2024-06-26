@@ -25,7 +25,7 @@ export class Flamethrower
     range: number;
     power: number;
 
-    constructor(private tool: FlamethrowerTool, private burnablePartService: BurnablePartService)
+    constructor(private tool: FlamethrowerTool, private owner: Player, private burnablePartService: BurnablePartService)
     {
         this.gasConsumptionRate = getFlamethrowerAttribute(tool, "GasConsumptionRate");
         this.areaOfEffect = getFlamethrowerAttribute(tool, "AreaOfEffect");
@@ -70,7 +70,7 @@ export class Flamethrower
             const distanceFromCenter = hitPosition.sub(part.Position).Magnitude;
             const power = this.power - (this.power / 2) * (distanceFromCenter / this.areaOfEffect);
 
-            this.burnablePartService.addPart(part, power);
+            this.burnablePartService.addPart(part, power, this.owner);
         });
 
         this.previousTickParts = this.previousTickParts.filter(part => parts.indexOf(part) === -1)

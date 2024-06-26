@@ -1,5 +1,5 @@
 import { Service, OnStart, OnInit, OnTick } from "@flamework/core";
-import { BurnablePart } from "shared/objects/burnable-part";
+import { BurnablePart } from "server/objects/burnable-part";
 
 @Service({})
 export class BurnablePartService implements OnTick 
@@ -11,12 +11,12 @@ export class BurnablePartService implements OnTick
         this.burningParts.forEach(part => part.tick(deltaTime));
     }
 
-    addPart(part: BasePart, burnPower: number)
+    addPart(part: BasePart, burnPower: number, owner: Player)
     {
         if (this.burningParts.get(part))
             return this.burningParts.get(part)?.setBurnPower(burnPower);
 
-        this.burningParts.set(part, new BurnablePart(part, burnPower));
+        this.burningParts.set(part, new BurnablePart(part, burnPower, owner));
     }
 
     removePart(part: BasePart)

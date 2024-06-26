@@ -1,7 +1,6 @@
 import { Controller, OnStart, OnInit } from "@flamework/core";
 import { Players, UserInputService } from "@rbxts/services";
 import { Events } from "client/network";
-import { Flamethrower } from "shared/objects/flamethrower";
 import { FlamethrowerHelper } from "shared/objects/flamethrower-helper";
 import { FlamethrowerTool } from "types/flamethrower";
 
@@ -24,13 +23,10 @@ export class FlamethrowerController
         
         Events.activateFlamethrower.fire();
         this.flamethrowerActive = true;
-        
-        const flamethrower = new Flamethrower(tool);
 
         while (this.flamethrowerActive)
         {
             const direction = mouse.Hit.Position.sub(tool.Handle.Hole.WorldPosition).Unit;
-
             Events.tickFlamethrower.fire(direction);            
             task.wait();
         }

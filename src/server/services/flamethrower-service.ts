@@ -26,7 +26,7 @@ export class FlamethrowerService implements OnInit
         if (!flamethrowerTool)
             return;
 
-        const flamethrower = new Flamethrower(flamethrowerTool, this.burnablePartService);
+        const flamethrower = new Flamethrower(flamethrowerTool, player, this.burnablePartService);
         flamethrower.activate();
 
         this.activateFlamethrowers.set(player, flamethrower);
